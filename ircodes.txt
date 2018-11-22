@@ -1,0 +1,11 @@
+OnOff - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF8877 }
+Timer - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF609F }
+FanUp - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF807F }
+FanDown - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF20DF }
+Cool - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF906F }
+TimerTempUp - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF708F }
+TimerTempDown - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AFB04F }
+EnergySaver - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF40BF }
+AutoFan - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AFF00F }
+Sleep - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AF00FF }
+FanOnly - irsend { "Protocol": "NEC", "Bits": 32, "Data": 0x10AFE01F }
