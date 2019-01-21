@@ -1,18 +1,47 @@
 esphomeyaml:
-  use_custom_code: True
   name: ac
   platform: ESP8266
   board: esp01_1m
+  includes:
+    - ../ESPHomeFrigidaireACComponent.h
+  libraries:
+    - IRremoteESP8266
 
 wifi:
   ssid: "My Wifi SSID"
   password: "My Wifi Password"
 
 mqtt:
-  broker: "mosquitto.org"
+  broker: "test.mosquitto.org"
   discovery: true
 
 logger:
   level: info
 
 ota:
+
+custom_component:
+ - lambda: |-
+      auto custom_ir = new IRComponent(
+        "On",
+        "Off",
+        "Temp Up",
+        "Temp Down",
+        "Speed Up",
+        "Speed Down",
+        "Speed Auto",
+        5,
+        5000);
+
+      App.register_component(custom_ir);
+      App.register_switch(custom_ir->on_switch);
+      App.register_switch(custom_ir->off_switch);
+      App.register_switch(custom_ir->tempup_switch);
+      App.register_switch(custom_ir->tempdown_switch);
+      App.register_switch(custom_ir->speedup_switch);
+      App.register_switch(custom_ir->speeddown_switch);
+      App.register_switch(custom_ir->speedauto_switch);
+
+      return {custom_ir};
+
+switch:

@@ -1,7 +1,6 @@
-#include "esphomelib/application.h"
+#include "esphomelib.h"
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
-
 using namespace esphomelib;
 
 static const char *TAG = "component.IR";
