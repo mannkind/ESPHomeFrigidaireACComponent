@@ -1,35 +1,20 @@
-#include "esphomelib.h"
+#include "esphome.h"
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
 using namespace esphomelib;
 
 static const char *TAG = "component.IR";
 
-class IROnSwitch : public switch_::Switch
+class IROnOffSwitch : public switch_::Switch
 {
 public:
   IRsend *irsend;
-  IROnSwitch(const std::string &name, IRsend *irsend) : switch_::Switch(name), irsend(irsend) {}
+  IROnOffSwitch(const std::string &name, IRsend *irsend) : switch_::Switch(name), irsend(irsend) {}
 
   void write_state(bool state) override
   {
-    this->publish_state(true);
+    this->publish_state(state);
     this->irsend->sendNEC(0x10AF8877, 32);
-    this->publish_state(false);
-  }
-};
-
-class IROffSwitch : public switch_::Switch
-{
-public:
-  IRsend *irsend;
-  IROffSwitch(const std::string &name, IRsend *irsend) : switch_::Switch(name), irsend(irsend) {}
-
-  void write_state(bool state) override
-  {
-    this->publish_state(true);
-    this->irsend->sendNEC(0x10AF8877, 32);
-    this->publish_state(false);
   }
 };
 
@@ -107,34 +92,30 @@ class IRComponent : public PollingComponent
 {
 public:
   IRsend *irsend;
-  IROnSwitch *on_switch;
-  IROnSwitch *off_switch;
-  IROnSwitch *tempup_switch;
-  IROnSwitch *tempdown_switch;
-  IROnSwitch *speedup_switch;
-  IROnSwitch *speeddown_switch;
-  IROnSwitch *speedauto_switch;
+  IROnOffSwitch *onoff_switch;
+  IRTempUpSwitch *tempup_switch;
+  IRTempDownSwitch *tempdown_switch;
+  IRSpeedUpSwitch *speedup_switch;
+  IRSpeedDownSwitch *speeddown_switch;
+  IRSpeedAutoSwitch *speedauto_switch;
 
   IRComponent(
-      const std::string &onSwitchName,
-      const std::string &offSwitchName,
+      const std::string &onoffSwitchName,
       const std::string &tempUpSwitchName,
       const std::string &tempDownSwitchName,
       const std::string &speedUpSwitchName,
       const std::string &speedDownSwitchName,
       const std::string &speedAutoSwitchName,
-      uint8_t pin,
-      uint32_t update_interval)
-      : PollingComponent(update_interval)
+      uint8_t pin)
+      : PollingComponent(0)
   {
     this->irsend = new IRsend(pin);
-    this->on_switch = new IROnSwitch(onSwitchName, irsend);
-    this->off_switch = new IROnSwitch(offSwitchName, irsend);
-    this->tempup_switch = new IROnSwitch(tempUpSwitchName, irsend);
-    this->tempdown_switch = new IROnSwitch(tempDownSwitchName, irsend);
-    this->speedup_switch = new IROnSwitch(speedUpSwitchName, irsend);
-    this->speeddown_switch = new IROnSwitch(speedDownSwitchName, irsend);
-    this->speedauto_switch = new IROnSwitch(speedAutoSwitchName, irsend);
+    this->onoff_switch = new IROnOffSwitch(onoffSwitchName, irsend);
+    this->tempup_switch = new IRTempUpSwitch(tempUpSwitchName, irsend);
+    this->tempdown_switch = new IRTempDownSwitch(tempDownSwitchName, irsend);
+    this->speedup_switch = new IRSpeedUpSwitch(speedUpSwitchName, irsend);
+    this->speeddown_switch = new IRSpeedDownSwitch(speedDownSwitchName, irsend);
+    this->speedauto_switch = new IRSpeedAutoSwitch(speedAutoSwitchName, irsend);
   }
 
   void setup() override

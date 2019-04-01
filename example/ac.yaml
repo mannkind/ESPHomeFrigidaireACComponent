@@ -23,19 +23,16 @@ ota:
 custom_component:
  - lambda: |-
       auto custom_ir = new IRComponent(
-        "On",
-        "Off",
-        "Temp Up",
-        "Temp Down",
-        "Speed Up",
-        "Speed Down",
-        "Speed Auto",
-        5,
-        5000);
+        "AC On/Off",
+        "AC Temp Up",
+        "AC Temp Down",
+        "AC Speed Up",
+        "AC Speed Down",
+        "AC Speed Auto",
+        5); /* IR Pin */
 
       App.register_component(custom_ir);
-      App.register_switch(custom_ir->on_switch);
-      App.register_switch(custom_ir->off_switch);
+      App.register_switch(custom_ir->onoff_switch);
       App.register_switch(custom_ir->tempup_switch);
       App.register_switch(custom_ir->tempdown_switch);
       App.register_switch(custom_ir->speedup_switch);
