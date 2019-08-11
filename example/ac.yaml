@@ -20,25 +20,30 @@ logger:
 
 ota:
 
-custom_component:
- - lambda: |-
-      auto custom_ir = new IRComponent(
-        "AC On/Off",
-        "AC Temp Up",
-        "AC Temp Down",
-        "AC Speed Up",
-        "AC Speed Down",
-        "AC Speed Auto",
-        5); /* IR Pin */
-
-      App.register_component(custom_ir);
-      App.register_switch(custom_ir->onoff_switch);
-      App.register_switch(custom_ir->tempup_switch);
-      App.register_switch(custom_ir->tempdown_switch);
-      App.register_switch(custom_ir->speedup_switch);
-      App.register_switch(custom_ir->speeddown_switch);
-      App.register_switch(custom_ir->speedauto_switch);
-
-      return {custom_ir};
-
 switch:
+ - platform: custom
+   lambda: |-
+      auto pin = 5;
+      auto onoff = new IROnOffSwitch(pin);
+      auto tempup = new IRTempUpSwitch(pin);
+      auto tempdown = new IRTempDownSwitch(pin);
+      auto speedup = new IRSpeedUpSwitch(pin);
+      auto speeddown = new IRSpeedDownSwitch(pin);
+      auto speedauto = new IRSpeedAutoSwitch(pin);
+
+      App.register_component(onoff);
+      App.register_component(tempup);
+      App.register_component(tempdown);
+      App.register_component(speedup);
+      App.register_component(speeddown);
+      App.register_component(speedauto);
+
+      return {onoff, tempup, tempdown, speedup, speeddown, speedauto};
+
+   switches:
+     - name: "On/Off"
+     - name: "Temp Up"
+     - name: "Temp Down"
+     - name: "Speed Up"
+     - name: "Speed Down"
+     - name: "Speed Auto"
