@@ -1,4 +1,4 @@
-esphomeyaml:
+esphome:
   name: ac
   platform: ESP8266
   board: esp01_1m
@@ -47,3 +47,7 @@ switch:
      - name: "Speed Up"
      - name: "Speed Down"
      - name: "Speed Auto"
+
+binary_sensor:   
+  - platform: status
+    name: "AC Status"
